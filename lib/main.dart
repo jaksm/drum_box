@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -103,10 +104,15 @@ class Pad extends StatefulWidget {
 
 class _PadState extends State<Pad> {
   bool isPlaying = false;
+  final player = AudioPlayer();
 
   // Start or stop audio reproduction based on isPlaying
   void togglePlaying() {
-    print('isPlaying $isPlaying');
+    if (isPlaying) {
+      player.stop();
+    } else {
+      player.play(widget.sound);
+    }
   }
 
   @override
