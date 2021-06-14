@@ -90,22 +90,45 @@ class _PadsScreenState extends State<PadsScreen> {
   }
 }
 
-class Pad extends StatelessWidget {
+class Pad extends StatefulWidget {
   final String sound;
   final MaterialColor color;
 
-  Pad({required this.sound, required this.color});
+  const Pad({Key? key, required this.sound, required this.color})
+      : super(key: key);
 
-  void playSound() {
-    print('Playing sound ${this.sound}');
+  @override
+  _PadState createState() => _PadState();
+}
+
+class _PadState extends State<Pad> {
+  bool isPlaying = false;
+
+  // Start or stop audio reproduction based on isPlaying
+  void togglePlaying() {
+    print('isPlaying $isPlaying');
   }
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: this.playSound,
-      child: Container(
-        color: this.color,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: GestureDetector(
+        onTapDown: (details) {
+          setState(() {
+            isPlaying = true;
+            togglePlaying();
+          });
+        },
+        onTapUp: (details) {
+          setState(() {
+            isPlaying = false;
+            togglePlaying();
+          });
+        },
+        child: Container(
+          color: this.isPlaying ? Colors.white : widget.color,
+        ),
       ),
     );
   }
