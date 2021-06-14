@@ -42,7 +42,71 @@ class _PadsScreenState extends State<PadsScreen> {
       appBar: AppBar(
         title: Text('Drum Box'),
       ),
-      body: Container(),
+      body: Center(
+        child: GridView.count(
+          shrinkWrap: true,
+          crossAxisCount: 3,
+          children: [
+            Pad(
+              color: Colors.orange,
+              sound: 'assets/',
+            ),
+            Pad(
+              color: Colors.blue,
+              sound: 'assets/',
+            ),
+            Pad(
+              color: Colors.red,
+              sound: 'assets/',
+            ),
+            Pad(
+              color: Colors.green,
+              sound: 'assets/',
+            ),
+            Pad(
+              color: Colors.yellow,
+              sound: 'assets/',
+            ),
+            Pad(
+              color: Colors.teal,
+              sound: 'assets/',
+            ),
+            Pad(
+              color: Colors.deepPurple,
+              sound: 'assets/',
+            ),
+            Pad(
+              color: Colors.amber,
+              sound: 'assets/',
+            ),
+            Pad(
+              color: Colors.indigo,
+              sound: 'assets/',
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class Pad extends StatelessWidget {
+  final String sound;
+  final MaterialColor color;
+
+  Pad({required this.sound, required this.color});
+
+  void playSound() {
+    print('Playing sound ${this.sound}');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: this.playSound,
+      child: Container(
+        color: this.color,
+      ),
     );
   }
 }
