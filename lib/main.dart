@@ -1,4 +1,4 @@
-import 'package:audioplayers/audioplayers.dart';
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -24,19 +24,12 @@ class DrumApp extends StatelessWidget {
           bodyColor: Colors.white,
         ),
       ),
-      home: PadsScreen(),
+      home: PadsGrid(),
     );
   }
 }
 
-class PadsScreen extends StatefulWidget {
-  PadsScreen({Key? key}) : super(key: key);
-
-  @override
-  _PadsScreenState createState() => _PadsScreenState();
-}
-
-class _PadsScreenState extends State<PadsScreen> {
+class PadsGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,39 +43,39 @@ class _PadsScreenState extends State<PadsScreen> {
           children: [
             Pad(
               color: Colors.orange,
-              sound: 'assets/',
+              sound: 'kicks1.wav',
             ),
             Pad(
-              color: Colors.blue,
-              sound: 'assets/',
+              color: Colors.orange,
+              sound: 'kicks2.wav',
             ),
             Pad(
-              color: Colors.red,
-              sound: 'assets/',
+              color: Colors.orange,
+              sound: 'kicks3.wav',
             ),
             Pad(
               color: Colors.green,
-              sound: 'assets/',
+              sound: 'drums1.wav',
             ),
             Pad(
-              color: Colors.yellow,
-              sound: 'assets/',
+              color: Colors.green,
+              sound: 'drums2.wav',
             ),
             Pad(
-              color: Colors.teal,
-              sound: 'assets/',
+              color: Colors.green,
+              sound: 'drums2.wav',
             ),
             Pad(
               color: Colors.deepPurple,
-              sound: 'assets/',
+              sound: 'melody1.wav',
             ),
             Pad(
-              color: Colors.amber,
-              sound: 'assets/',
+              color: Colors.deepPurple,
+              sound: 'melody2.wav',
             ),
             Pad(
-              color: Colors.indigo,
-              sound: 'assets/',
+              color: Colors.deepPurple,
+              sound: 'melody3.wav',
             ),
           ],
         ),
@@ -104,14 +97,15 @@ class Pad extends StatefulWidget {
 
 class _PadState extends State<Pad> {
   bool isPlaying = false;
-  final player = AudioPlayer();
+  final player = AssetsAudioPlayer();
 
-  // Start or stop audio reproduction based on isPlaying
-  void togglePlaying() {
+  void togglePlaying() async {
     if (isPlaying) {
-      player.stop();
+      await player.open(
+        Audio('assets/${widget.sound}'),
+      );
     } else {
-      player.play(widget.sound);
+      await player.stop();
     }
   }
 
@@ -120,17 +114,18 @@ class _PadState extends State<Pad> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: GestureDetector(
+        behavior: HitTestBehavior.translucent,
         onTapDown: (details) {
           setState(() {
             isPlaying = true;
-            togglePlaying();
           });
+          togglePlaying();
         },
         onTapUp: (details) {
           setState(() {
             isPlaying = false;
-            togglePlaying();
           });
+          togglePlaying();
         },
         child: Container(
           color: this.isPlaying ? Colors.white : widget.color,
